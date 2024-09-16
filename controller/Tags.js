@@ -31,18 +31,23 @@ return res.json({
 };
 //get All Tags
 
-exports.getAlldetail=async(req,res)=>{
-
+exports.getAlldetail = async (req, res) => {
     try {
-        const alldetail = await Tag.find({},{name:true,description:description});
+        const alldetail = await Tag.find({}, { name: true, description: true });
         console.log(alldetail);
-    } catch (error) {
         return res.json({
-            message:message.error,
-            status:false
-        })
+            data: alldetail,
+            status: true
+        });
+    } catch (error) {
+        console.error(error); // Log the actual error for debugging
+        return res.json({
+            message: "Couldn't fetch",
+            status: false
+        });
     }
 };
+
 
 exports.getAlltag = async(req,res)=>{
 
@@ -50,7 +55,6 @@ exports.getAlltag = async(req,res)=>{
         // fetch tagid
 
         const Tagid=req.body;
-
         const tagspecificcourse = await Tag.findById({
            Tagid
         })
@@ -68,8 +72,6 @@ exports.getAlltag = async(req,res)=>{
         path:"course"
        }).exec();
         
-       
-
         // fetch top sell
 
     } catch(error) {

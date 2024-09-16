@@ -12,7 +12,5 @@ const mongoose=require("mongoose");
     VideoUrl:{
         type:String
     }
-
-
  })
  module.exports=mongoose.model("SubSection",SubSectionSchema);

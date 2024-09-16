@@ -21,7 +21,7 @@ const mongoose=require("mongoose");
     type:Number
  },
  thumbnail:{
-    type:String
+   type: Object,
  },
  ratingAndReview:{
     type:mongoose.Schema.Types.ObjectId,

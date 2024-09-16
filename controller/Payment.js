@@ -21,7 +21,7 @@ exports.capturestate=async(req,res)=>{
         
         if (!courseDetail){
             return res.status(500).json({
-                massage:"Course  not exist",
+                massage:"Course not exist",
                 status:false
             })
         }

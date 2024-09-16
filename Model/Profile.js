@@ -4,7 +4,7 @@ const mongoose=require("mongoose");
         type:String
     },
     dateofbirth:{
-        type:date,
+        type:Date,
     },
     about:{ 
         type:String,
