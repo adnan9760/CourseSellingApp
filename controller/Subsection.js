@@ -3,46 +3,56 @@ const subsection = require("../Model/SubSection");
 const { uploadimage } = require("../utils/imageUploader");
 const videouploader = require("../utils/videoUploader");
 
+
+
 exports.createSubsection = async (req, res) => {
   try {
     const { title, timeduration, description, sectionId } = req.body;
-    console.log("tille", title);
-    console.log("dis", description);
-
-    console.log("id", sectionId);
-    const video = req.files.VideoUrl;
-
-    console.log("video", video);
+    const video = req.files.VideoUrl;    
     if (!title || !timeduration || !description || !sectionId || !video) {
-      return res.status(500).json({
-        message: "All Filed Required",
+      return res.status(400).json({
+        message: "All fields are required.",
         status: false,
       });
-    }
-
-    const uploadDetaile = await videouploader(video.tempFilePath, process.env.FOLDER_NAME);
-    console.log("Upload Detail",uploadDetaile.secure_url)
+    }    
+    const uploadDetail = await videouploader(video.tempFilePath, process.env.FOLDER_NAME);
+    console.log("Upload Detail:", uploadDetail.secure_url);
     const SubSectionDetail = await subsection.create({
-        sectionId:sectionId,
-        title: title,
-        timeduration: timeduration,
-        description: description,
-        VideoUrl: uploadDetaile.secure_url, 
-      });
+      sectionId: sectionId,
+      title: title,
+      timeduration: timeduration,
+      description: description,
+      VideoUrl: uploadDetail.secure_url,
+    });
+    
+    // const section = await section.findById(sectionId);
+    // if (!section) {
+    //   return res.status(404).json({
+    //     message: "Section not found.",
+    //     status: false,
+    //   });
+    // }
+    section.subSection.push(SubSectionDetail._id); 
+    await section.save(); 
 
-    console.log("section", SubSectionDetail);
+   
+    await section.populate('subSection').execPopulate();
+     
 
     return res.json({
-      message: "Subsection created sucessfully",
+      message: "Subsection created successfully",
       status: true,
     });
   } catch (error) {
-    return res.json({
-      message: "Subsection not created ,please try again",
+    console.error("Error creating subsection:", error); // Log the error for debugging
+    return res.status(500).json({
+      message: "Subsection not created, please try again.",
       status: false,
+      error: error.message || "Internal Server Error", // Optional: Include error message
     });
   }
 };
+
 
 
 exports.updateSubsection = async (req, res) => {

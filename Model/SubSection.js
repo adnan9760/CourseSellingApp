@@ -11,6 +11,11 @@ const mongoose=require("mongoose");
     },
     VideoUrl:{
         type:String
-    }
+    },
+    sectionId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Section',
+        required: true,
+      },
  })
  module.exports=mongoose.model("SubSection",SubSectionSchema);
