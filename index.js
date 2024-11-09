@@ -19,7 +19,7 @@ app.use(Express.json());
 app.use(cookiesparser());
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: "https://coursesellclient.onrender.com",
     credentials: true,
   })
 );
