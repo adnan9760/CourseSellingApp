@@ -5,7 +5,7 @@ const{Createcourse,getCourseAlldetails,getCourseDetail} = require("../controller
 const{createReview,GetAvgReviews,getAllReview} = require("../controller/Rating&Review");
 const{CreateTag,getAlldetail,getAlltag} = require("../controller/Tags");
 const{createSection,updateCourse,deleteSection}= require("../controller/Section");
-const{createSubsection,updateSubsection,deletesubSection}= require("../controller/Subsection");
+const{createSubsection,updateSubsection,deletesubSection,getSubsection}= require("../controller/Subsection");
 const{auth, Isinstructor,Isstudent,Isadmin}=require("../Middleware/auth");
 
 router.post("/Createcourse",auth,Createcourse);
@@ -31,9 +31,12 @@ router.post("/createSection",auth,Isinstructor,createSection);
 
 router.put("/updateCourse",auth,Isinstructor,updateCourse);
 
+
 router.delete("/deleteSection",auth,Isinstructor,deleteSection);
 
 router.post("/createSubsection",auth,Isinstructor,createSubsection);
+router.get("/fetchSubsection",auth,Isinstructor,getSubsection);
+
 
 router.post("/updateSubsection",auth,Isinstructor,updateSubsection);
 
