@@ -72,7 +72,8 @@ exports.updateCourse = async (req, res) => {
 
 exports.deleteSection = async (req, res) => {
   try {
-    const { sectionId } = req.param;
+    const { sectionId } = req.query;
+    console.log("id jhjh",sectionId);
     await section.findByIdAndDelete(sectionId);
     return res.status(200).json({
       message: "Section succesfully deleted",
@@ -85,3 +86,44 @@ exports.deleteSection = async (req, res) => {
     });
   }
 };
+exports.fetchSection = async (req, res) => {
+  try {
+    const { courseId } = req.query;
+
+    // Attempt to fetch the course and populate sections and subsections
+    const fetchdata = await course.findById(courseId)
+      .populate({
+        path: 'coursecontent',
+        populate: {
+          path: 'subSection'
+        }
+      });
+
+    if (!fetchdata) {
+      console.log("Course not found for ID:", courseId);
+      return res.status(404).json({
+        message: "Course not found",
+        status: false
+      });
+    }
+
+    console.log("Fetched data with populated sections:", fetchdata);
+
+    return res.status(200).json({
+      message: "Fetched all sections and subsections successfully",
+      status: true,
+      data: fetchdata
+    });
+  } catch (error) {
+    console.error("Error fetching sections and subsections:", error);
+
+    return res.status(500).json({
+      message: "Failed to fetch sections and subsections",
+      status: false,
+      error: error.message || "Internal Server Error"
+    });
+  }
+};
+
+
+

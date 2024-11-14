@@ -13,10 +13,10 @@ const mongoose=require("mongoose");
  whatwillyoulearn:{
     type:String,
  },
- coursecontent:{
+ coursecontent:[{
     type:mongoose.Schema.Types.ObjectId,
     ref:"Section"
- },
+ }],
  price:{
     type:Number
  },

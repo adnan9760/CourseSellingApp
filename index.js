@@ -19,7 +19,7 @@ app.use(Express.json());
 app.use(cookiesparser());
 app.use(
   cors({
-    origin: "https://coursesellclient.onrender.com",
+    origin: "https://coursesellingapp-udoa.onrender.com",
     credentials: true,
   })
 );
