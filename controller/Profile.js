@@ -78,3 +78,24 @@ exports.updateDisplayImage = async (req, res) => {
     });
   }
 };
+
+exports.fetchuserdetail = async(req, res) =>{
+ try {
+  const { userId } = req.query;
+  const user = await User.findById(userId).populate('courses');
+
+ console.log("user",user);
+
+ return res.status(200).json({
+     status:true,
+     message:"User data fetch",
+     data:user
+ })
+
+ } catch (error) {
+  return res.json({
+    messsage: "Something Went Wrong",
+    status: false,
+  });
+ }
+}

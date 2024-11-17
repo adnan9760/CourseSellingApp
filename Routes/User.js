@@ -15,6 +15,7 @@ router.post("/SendOTP",sendOTP);
 
 router.post("/changePassword",changePassword);
 router.post("/forget-password",Sendresetpasswordmail);
+router.get("/fetchuserdata")
 
 module.exports = router;
 

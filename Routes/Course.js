@@ -1,7 +1,7 @@
 const Express = require("express");
 const router = Express.Router();
 
-const{Createcourse,getCourseAlldetails,getCourseDetail} = require("../controller/Courses");
+const{Createcourse,Updatecourseaspublic,getCourseAlldetails,getCourseDetail} = require("../controller/Courses");
 const{createReview,GetAvgReviews,getAllReview} = require("../controller/Rating&Review");
 const{CreateTag,getAlldetail,getAlltag} = require("../controller/Tags");
 const{createSection,updateCourse,deleteSection,fetchSection}= require("../controller/Section");
@@ -11,9 +11,10 @@ const{auth, Isinstructor,Isstudent,Isadmin}=require("../Middleware/auth");
 
 router.post("/Createcourse",auth,Createcourse);
 
-router.post("/getCourseAlldetails",getCourseAlldetails);
+router.get("/getCourseAlldetails",getCourseAlldetails);
 
-router.post("/getCourseDetail",getCourseDetail);
+router.get("/getCourseDetail",getCourseDetail);
+router.put("/markaspublic",Updatecourseaspublic)
 
 router.post("/createReview",auth,Isstudent,createReview);
 
@@ -31,10 +32,10 @@ router.post("/getAllTag",getAlltag);
 router.post("/createSection",auth,Isinstructor,createSection);
 
 router.put("/updateCourse",auth,Isinstructor,updateCourse);
-router.get("/fetchsection",fetchSection);
+router.get("/fetchsection",auth,Isinstructor,fetchSection);
 
 
-router.delete("/deleteSection",deleteSection);
+router.delete("/deleteSection",auth,Isinstructor,deleteSection);
 
 router.post("/createSubsection",auth,Isinstructor,createSubsection);
 router.get("/fetchSubsection",auth,Isinstructor,getSubsection);

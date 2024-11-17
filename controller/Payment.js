@@ -69,12 +69,10 @@ exports.capturestate=async(req,res)=>{
     }
 }
 
-//Authorization
 exports.paymentAuth=async(req,res)=>{
     
    
         const WebhookSecret_key="1234678";
-        //three Line for convert string into encrp=ypted from
       const signature=req.header("x-rozarpay-signature");
       const shasum= crypto.createHmac("sha256",WebhookSecret_key);
       shasum.update(JSON.stringify(req.body));

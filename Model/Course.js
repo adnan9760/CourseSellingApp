@@ -38,7 +38,13 @@ const mongoose=require("mongoose");
       required:true
    }
  ],
-
-
+ status: {
+   type: String,
+   enum: ["Draft", "Published"],
+ },
+ created_at:{
+   type:Date,
+   default:Date.now
+   },
  })
  module.exports=mongoose.model("Course",CourseSchema);

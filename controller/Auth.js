@@ -125,7 +125,7 @@ exports.Signup = async (req, res) => {
   }
 };
 
-//login
+
 exports.Login = async (req, res) => {
   try {
     const { email, password } = req.body;

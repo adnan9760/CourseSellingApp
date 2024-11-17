@@ -8,7 +8,7 @@ exports.Createcourse = async (req, res) => {
   try {
     const { courseName, CourseDescription, WhatWillYouLearn, price, Tag } =
       req.body;
-  console.log(courseName)
+    console.log(courseName);
     if (
       !courseName ||
       !CourseDescription ||
@@ -23,9 +23,9 @@ exports.Createcourse = async (req, res) => {
     }
 
     const thumbnail = req.files.thumbnailImage;
-    console.log(thumbnail)
+    console.log(thumbnail);
     const userId = req.user.id;
-    console.log("userid",userId);
+    console.log("userid", userId);
     const instructorDetail = await User.findById(userId);
 
     if (!instructorDetail) {
@@ -53,6 +53,7 @@ exports.Createcourse = async (req, res) => {
       price: price,
       tag: TagDetails._id,
       thumbnail: thumbnailImage,
+      status: "Draft",
     });
 
     await User.findByIdAndUpdate(
@@ -64,7 +65,7 @@ exports.Createcourse = async (req, res) => {
     return res.status(200).json({
       message: "Course created successfully",
       status: true,
-      data: NewCourse
+      data: NewCourse,
     });
   } catch (error) {
     console.error("Error creating course:", error);
@@ -76,18 +77,13 @@ exports.Createcourse = async (req, res) => {
   }
 };
 
-exports.editcourse = async(req,res)=>{
+exports.editcourse = async (req, res) => {
   try {
-      const courseid = req.body;
+    const courseid = req.body;
 
-
-      const coursedetail = await course.findById(courseid);
-
-     
-  } catch (error) {
-    
-  }
-}
+    const coursedetail = await course.findById(courseid);
+  } catch (error) {}
+};
 
 exports.getCourseAlldetails = async (req, res) => {
   try {
@@ -106,8 +102,13 @@ exports.getCourseAlldetails = async (req, res) => {
       .populate("instructor")
       .exec();
     console.log(allcoursedetail);
+    return res.status(200).json({
+      message: "Course details fetched successfully",
+      status: true,
+      data: allcoursedetail,
+    });
   } catch (error) {
-    return res.json({
+    return res.status(500).json({
       message: "can't fetch course Data",
       status: false,
     });
@@ -116,43 +117,92 @@ exports.getCourseAlldetails = async (req, res) => {
 
 exports.getCourseDetail = async (req, res) => {
   try {
-    const { courseId } = req.body;
+    const { courseId } = req.query;
+    console.log("id", courseId);
 
     const courseExist = await course
-      .find({ _id: courseId })
+      .findById(courseId)
+      .populate("instructor")
       .populate({
-        path: "instructor".populate({
+        path: "instructor",
+        populate: {
           path: "additionalDetail",
-        }),
+        },
       })
       .populate({
         path: "ratingAndReview",
       })
       .populate({
-        path: "coursecontent".populate({
+        path: "coursecontent",
+        populate: {
           path: "subSection",
-        }),
+        },
       })
       .populate({
         path: "tag",
       })
       .exec();
 
+    console.log("exist", courseExist);
+
     if (!courseExist) {
-      return res.status.json({
+      return res.status(404).json({
         status: false,
-        Message: "Course Not found",
+        message: "Course Not found",
       });
     }
 
-    return res.status.json({
+    return res.status(200).json({
       status: true,
-      message: "Couse Detail Succesfully fetched",
+      message: "Course Detail successfully fetched",
+      data: courseExist,
     });
   } catch (error) {
-    return res.status.json({
+    console.error("Error fetching course detail:", error);
+    return res.status(500).json({
       status: false,
-      Message: "Something Went Wrong",
+      message: "Something went wrong",
+    });
+  }
+};
+
+exports.Updatecourseaspublic = async (req, res) => {
+  try {
+    const { courseId } = req.query;
+    console.log("Course ID:", courseId);
+
+    if (!courseId) {
+      return res.status(400).json({
+        status: false,
+        message: "Course ID is required",
+      });
+    }
+
+    const updatedCourse = await course.findByIdAndUpdate(
+      courseId,
+      { status: "Published" },
+      { new: true }
+    );
+
+    if (!updatedCourse) {
+      return res.status(404).json({
+        status: false,
+        message: "Course not found",
+      });
+    }
+
+    console.log("Updated Course:", updatedCourse);
+
+    return res.status(200).json({
+      status: true,
+      message: "Course marked as public successfully",
+      data: updatedCourse, // Optional: Include updated course details
+    });
+  } catch (error) {
+    console.error("Error updating course:", error);
+    return res.status(500).json({
+      status: false,
+      message: "Something went wrong",
     });
   }
 };
