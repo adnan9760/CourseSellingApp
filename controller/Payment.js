@@ -100,7 +100,7 @@ exports.paymentAuth=async(req,res)=>{
     
    
         const WebhookSecret_key="1234678";
-      const signature=req.header("x-rozarpay-signature");
+      const signature=req.header("x-razorpay-signature");
       const shasum= crypto.createHmac("sha256",WebhookSecret_key);
       shasum.update(JSON.stringify(req.body));
       const digest=shasum.digest("hex");
