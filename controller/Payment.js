@@ -108,10 +108,10 @@ exports.paymentAuth=async(req,res)=>{
         if(digest === signature){
 
             console.log("Payment is Authorised");
-            const{userid,courseid}=req.body.payload.payment.entity.notes;
+            const{userid,course_id}=req.body.payload.payment.entity.notes;
             console.log("user",userid);
-             console.log("user",courseid);
-            const enrolledcourse= await course.findByIdAndUpdate(courseid,{
+             console.log("user",course_id);
+            const enrolledcourse= await course.findByIdAndUpdate(course_id,{
                 $push:{
                     studentEnrolled:userid
                 }
@@ -127,7 +127,7 @@ exports.paymentAuth=async(req,res)=>{
             }
            const enrolledStuednt=await User.findByIdAndUpdate(userid,{
             $push:{
-                courses:courseid
+                courses:course_id
             }
            },{
             new:true,
