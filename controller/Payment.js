@@ -109,13 +109,16 @@ exports.paymentAuth=async(req,res)=>{
 
             console.log("Payment is Authorised");
             const{userid,courseid}=req.body.payload.payment.entity.notes;
+            console.log("user",userid);
+             console.log("user",courseid);
             const enrolledcourse= await course.findByIdAndUpdate(courseid,{
                 $push:{
                     studentEnrolled:userid
                 }
             },{
                 new:true
-            })
+            });
+              console.log("course",enrolledcourse);
             if(!enrolledcourse){
                 return res.status(500).json({
                     message:"Course Not Found",
