@@ -17,7 +17,6 @@ const TagDetails=await Tag.create({
     description:description
 }) ;
 
-console.log(TagDetails);
 return res.json({
     message:"Tag created Sucessfully",
     status:true,
@@ -34,7 +33,6 @@ return res.json({
 exports.getAlldetail = async (req, res) => {
     try {
         const alldetail = await Tag.find({}, { name: true, description: true });
-        console.log(alldetail);
         return res.json({
             data: alldetail,
             status: true

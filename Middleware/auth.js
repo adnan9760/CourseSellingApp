@@ -13,14 +13,13 @@ exports.auth = async (req, res, next) => {
         success: false,
       });
     }
-
+  
     let token = authorizationHeader.startsWith("Bearer ")
       ? authorizationHeader.split(" ")[1]
       : authorizationHeader;
 
     token = token.replace(/^"|"$/g, "");
 
-    console.log("token", token);
     if (!token) {
       return res.json({
         message: "Token is missing",
@@ -30,7 +29,6 @@ exports.auth = async (req, res, next) => {
 
     try {
       const decode = await jwt.verify(token, process.env.JWT_SECRET);
-      console.log("Decoded token:", decode);
       req.user = decode;
     } catch (error) {
       return res.json({

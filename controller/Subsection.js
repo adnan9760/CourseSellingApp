@@ -17,7 +17,6 @@ exports.createSubsection = async (req, res) => {
       video.tempFilePath,
       process.env.FOLDER_NAME
     );
-    console.log("Upload Detail:", uploadDetail.secure_url);
 
     const SubSectionDetail = await subsection.create({
       sectionId: sectionId,
@@ -28,7 +27,6 @@ exports.createSubsection = async (req, res) => {
     });
 
     const sectiondoc = await section.findById(sectionId);
-    console.log("sectionid", sectiondoc);
     if (!sectiondoc) {
       return res.status(404).json({
         message: "Section not found.",
@@ -106,13 +104,11 @@ exports.deletesubSection = async (req, res) => {
 exports.getSubsection = async (req, res) => {
   try {
     const { sectionId } = req.query;  
-    console.log("id ", sectionId);
 
     const subsectionwithsection = await section
       .findById(sectionId)
       .populate("subSection");
     
-    console.log("sect", subsectionwithsection);
 
     if (!subsectionwithsection) {
       return res.json({

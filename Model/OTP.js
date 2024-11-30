@@ -17,7 +17,6 @@ const mailSender = require("../utils/mailSender");
  async function sendverificationEmail(email,otp){
     try {
         const mailResponse= await mailSender(email,"Verification Email from StudyNotion",otp);
-        console.log("Email sent Successsfully",mailResponse);
     } catch (error) {
         console.log("error occured while sending mail")
     }

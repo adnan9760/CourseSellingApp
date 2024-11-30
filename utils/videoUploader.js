@@ -1,8 +1,6 @@
 const cloudinary = require("cloudinary").v2;
 
 async function videouploader(file, folder) {
-  console.log("Inside Cloudinary Video Uploader");
-  console.log("file",file);
 
   try {
     let result = await cloudinary.uploader.upload(file, {
@@ -10,7 +8,6 @@ async function videouploader(file, folder) {
       folder: folder,
     });
 
-    console.log("Upload result:", result);
     return result;
   } catch (error) {
     console.error("Error uploading video:", error);

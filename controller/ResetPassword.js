@@ -5,7 +5,6 @@ const bcrypt = require("bcrypt");
 
 exports.Sendresetpasswordmail = async (req, res) => {
     const { email } = req.body;
-    console.log("Email id",email)
     try {
         const userExist = await User.findOne({ email });
         if (!userExist) {

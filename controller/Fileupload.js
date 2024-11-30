@@ -7,11 +7,9 @@ async function uploadfiletocloudinary(file , folder){
 exports.fileuploadcloudinary = async(req,res)=>{
     try {
         const file = req.files.file;
-        console.log(file);
         //validation Remaining
 
         const response = await uploadfiletocloudinary(file,"courseThumnail");
-        console.log("response",response);
 
          res.json({
             message:"Thumnail Upload Succesfully",

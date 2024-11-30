@@ -36,7 +36,6 @@ exports.additionaldetail = async (req, res) => {
   }
 };
 exports.deleteAccount = async (req, res) => {
-  console.log("Account Section");
   try {
     const { userid } = req.body.userid;
     const finduser = await User.findById(userid);
@@ -84,7 +83,6 @@ exports.fetchuserdetail = async(req, res) =>{
   const { userId } = req.query;
   const user = await User.findById(userId).populate('courses');
 
- console.log("user",user);
 
  return res.status(200).json({
      status:true,

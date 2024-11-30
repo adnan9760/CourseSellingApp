@@ -4,11 +4,9 @@ const User = require("../Model/User");
 const { uploadimage } = require("../utils/imageUploader");
 
 exports.Createcourse = async (req, res) => {
-  console.log("Inside create course");
   try {
     const { courseName, CourseDescription, WhatWillYouLearn, price, Tag } =
       req.body;
-    console.log(courseName);
     if (
       !courseName ||
       !CourseDescription ||
@@ -23,9 +21,7 @@ exports.Createcourse = async (req, res) => {
     }
 
     const thumbnail = req.files.thumbnailImage;
-    console.log(thumbnail);
     const userId = req.user.id;
-    console.log("userid", userId);
     const instructorDetail = await User.findById(userId);
 
     if (!instructorDetail) {
@@ -101,7 +97,6 @@ exports.getCourseAlldetails = async (req, res) => {
       )
       .populate("instructor")
       .exec();
-    console.log(allcoursedetail);
     return res.status(200).json({
       message: "Course details fetched successfully",
       status: true,
@@ -118,7 +113,6 @@ exports.getCourseAlldetails = async (req, res) => {
 exports.getCourseDetail = async (req, res) => {
   try {
     const { courseId } = req.query;
-    console.log("id", courseId);
 
     const courseExist = await course
       .findById(courseId)
@@ -143,7 +137,6 @@ exports.getCourseDetail = async (req, res) => {
       })
       .exec();
 
-    console.log("exist", courseExist);
 
     if (!courseExist) {
       return res.status(404).json({
@@ -169,7 +162,6 @@ exports.getCourseDetail = async (req, res) => {
 exports.Updatecourseaspublic = async (req, res) => {
   try {
     const { courseId } = req.query;
-    console.log("Course ID:", courseId);
 
     if (!courseId) {
       return res.status(400).json({
@@ -191,7 +183,6 @@ exports.Updatecourseaspublic = async (req, res) => {
       });
     }
 
-    console.log("Updated Course:", updatedCourse);
 
     return res.status(200).json({
       status: true,
