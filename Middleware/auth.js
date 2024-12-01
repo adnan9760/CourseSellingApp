@@ -29,7 +29,9 @@ exports.auth = async (req, res, next) => {
 
     try {
       const decode = await jwt.verify(token, process.env.JWT_SECRET);
+      console.log("decode",decode)
       req.user = decode;
+      console.log("decode",req.user)
     } catch (error) {
       return res.json({
         message: "Token is not verified",

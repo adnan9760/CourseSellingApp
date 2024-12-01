@@ -2,6 +2,7 @@ const {instance} = require("../config/razorpay")
 const User= require("../Model/User");
 const course=require("../Model/Course");
 const mailsender= require("../utils/mailSender");
+const crypto = require('crypto');
 const { default: mongoose } = require("mongoose");
 
 
@@ -96,13 +97,17 @@ exports.capturestate = async (req, res) => {
 
 
 exports.paymentAuth=async(req,res)=>{
-    
-   
+  console.log("inside AAAAUTH")
         const WebhookSecret_key="1234678";
-      const signature=req.header("x-rozarpay-signature");
+      const signature=req.header("x-razorpay-signature");
+      console.log(req.headers);
+      console.log("Received Signature: ", signature);
+
       const shasum= crypto.createHmac("sha256",WebhookSecret_key);
       shasum.update(JSON.stringify(req.body));
+      
       const digest=shasum.digest("hex");
+      console.log("Calculated Digest: ", digest);
       try {
         if(digest === signature){
 

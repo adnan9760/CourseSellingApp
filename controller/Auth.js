@@ -148,6 +148,7 @@ exports.Login = async (req, res) => {
         email: user.email,
         id: user._id,
         accountType: user.accountType,
+        username:user.firstName,
       };
    
 

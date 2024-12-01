@@ -1,8 +1,8 @@
 const Express = require("express");
 const router = Express.Router();
 
-const{Createcourse,Updatecourseaspublic,getCourseAlldetails,getCourseDetail} = require("../controller/Courses");
-const{createReview,GetAvgReviews,getAllReview} = require("../controller/Rating&Review");
+const{Createcourse,Updatecourseaspublic,getCourseAlldetails,FetchEnrolledCourse,getCourseDetail} = require("../controller/Courses");
+const{createReview,GetAvgReviews,getAllReview,fetchAllReview} = require("../controller/Rating&Review");
 const{CreateTag,getAlldetail,getAlltag} = require("../controller/Tags");
 const{createSection,updateCourse,deleteSection,fetchSection}= require("../controller/Section");
 const{createSubsection,updateSubsection,deletesubSection,getSubsection}= require("../controller/Subsection");
@@ -10,6 +10,7 @@ const{auth, Isinstructor,Isstudent,Isadmin}=require("../Middleware/auth");
 
 
 router.post("/Createcourse",auth,Createcourse);
+router.get("/fetchenrollcourse",auth,FetchEnrolledCourse);
 
 router.get("/getCourseAlldetails",getCourseAlldetails);
 
@@ -17,8 +18,9 @@ router.get("/getCourseDetail",getCourseDetail);
 router.put("/markaspublic",Updatecourseaspublic)
 
 router.post("/createReview",auth,Isstudent,createReview);
+router.get("/fetchAllReview",auth,Isstudent,fetchAllReview)
 
-router.post("/GetAvgRating",GetAvgReviews);
+router.get("/GetAvgRating",GetAvgReviews);
 
 router.post("/getAllRating",getAllReview);
 
