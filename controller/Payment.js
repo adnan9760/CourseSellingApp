@@ -2,7 +2,7 @@ const {instance} = require("../config/razorpay")
 const User= require("../Model/User");
 const course=require("../Model/Course");
 const mailsender= require("../utils/mailSender");
-const crypto = require('crypto');
+
 const { default: mongoose } = require("mongoose");
 
 
@@ -99,10 +99,7 @@ exports.capturestate = async (req, res) => {
 exports.paymentAuth=async(req,res)=>{
   console.log("inside AAAAUTH")
         const WebhookSecret_key="1234678";
-      const signature=req.header("x-razorpay-signature");
-      console.log(req.headers);
-      console.log("Received Signature: ", signature);
-
+      const signature=req.header("x-rozarpay-signature");
       const shasum= crypto.createHmac("sha256",WebhookSecret_key);
       shasum.update(JSON.stringify(req.body));
       
@@ -112,14 +109,17 @@ exports.paymentAuth=async(req,res)=>{
         if(digest === signature){
 
             console.log("Payment is Authorised");
-            const{userid,courseid}=req.body.payload.payment.entity.notes;
-            const enrolledcourse= await course.findByIdAndUpdate(courseid,{
+            const{userid,course_id}=req.body.payload.payment.entity.notes;
+            console.log("user",userid);
+             console.log("user",course_id);
+            const enrolledcourse= await course.findByIdAndUpdate(course_id,{
                 $push:{
                     studentEnrolled:userid
                 }
             },{
                 new:true
-            })
+            });
+              console.log("course",enrolledcourse);
             if(!enrolledcourse){
                 return res.status(500).json({
                     message:"Course Not Found",
@@ -128,7 +128,7 @@ exports.paymentAuth=async(req,res)=>{
             }
            const enrolledStuednt=await User.findByIdAndUpdate(userid,{
             $push:{
-                courses:courseid
+                courses:course_id
             }
            },{
             new:true,
