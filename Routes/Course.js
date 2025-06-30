@@ -9,6 +9,7 @@ const{createSubsection,updateSubsection,deletesubSection,getSubsection}= require
 const{auth, Isinstructor,Isstudent,Isadmin}=require("../Middleware/auth");
 
 
+
 router.post("/Createcourse",auth,Createcourse);
 router.get("/fetchenrollcourse",auth,FetchEnrolledCourse);
 
@@ -22,7 +23,7 @@ router.get("/fetchAllReview",auth,Isstudent,fetchAllReview)
 
 router.get("/GetAvgRating",GetAvgReviews);
 
-router.post("/getAllRating",getAllReview);
+router.get("/getAllRating",getAllReview);
 
 // router.post("/CreateTag",auth,Isadmin,CreateTag);
 router.post("/CreateTag",CreateTag);

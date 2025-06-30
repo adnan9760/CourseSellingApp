@@ -68,9 +68,9 @@ exports.createReview = async (req, res) => {
   
 exports.GetAvgReviews = async(req,res)=>{
     try {
-
-        const {courseId}= req.query;
-     
+        console.log("hiiiiiii")
+        const { courseId }= req.query;
+         console.log("iddddddddddd",courseId)
         const calculateAvgReview = await Rating.aggregate([
             {
                 $match:{
@@ -102,37 +102,33 @@ exports.GetAvgReviews = async(req,res)=>{
 
 
 
-exports.getAllReview= async(req,res)=>{
-    try {
-        await Rating.find({},
-            
-            ).populate({
-                path:"rating"
-            }).populate({
-                path:"review"
-            }).populate({
-                path:"user",
-                select:"firstName lastName email image"
-                
-            })
-            .populate({
-                path:"Course",
-                select:"title"
-            }).exec();
+exports.getAllReview = async (req, res) => {
+  try {
+    const reviews = await Rating.find({})
+      .populate({
+        path: "user",
+        select: "firstName lastName email image",
+      })
+      .populate({
+        path: "Course",
+        select: "title",
+      });
 
-            return res.status(200).json({
-                message:"All  review fetch",
-                status:true,
+    return res.status(200).json({
+      message: "All reviews fetched successfully",
+      status: true,
+      data: reviews,
+    });
+  } catch (error) {
+    console.error("Error fetching all reviews:", error);
+    return res.status(500).json({
+      message: "Something went wrong",
+      status: false,
+      error: error.message, // Include the error message for debugging
+    });
+  }
+};
 
-            })
-    } catch (error) {
-        res.status(404).json({
-            message:"Something went Wrong",
-            status:false
-    }
-        )
-    }
-}
 
 
 

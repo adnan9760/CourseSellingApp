@@ -3,15 +3,13 @@ const User= require("../Model/User");
 const course=require("../Model/Course");
 const crypto = require('crypto');
 const mailsender= require("../utils/mailSender");
-
+const crypto = require('crypto');
 const { default: mongoose } = require("mongoose");
 
 
 exports.capturestate = async (req, res) => {
   try {
     console.log("Processing capturestate...");
-
-    // Validate user
     if (!req.user || !req.user.id) {
       return res.status(401).json({
         message: "User is not authenticated",
@@ -19,8 +17,6 @@ exports.capturestate = async (req, res) => {
       });
     }
     const userid = req.user.id;
-
-    // Validate courseId
     const { courseId } = req.query;
     if (!courseId || !mongoose.Types.ObjectId.isValid(courseId)) {
       return res.status(400).json({
@@ -29,7 +25,7 @@ exports.capturestate = async (req, res) => {
       });
     }
 
-    // Fetch course details
+    
     const courseDetail = await course.findById(courseId);
     if (!courseDetail) {
       return res.status(404).json({

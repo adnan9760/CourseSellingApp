@@ -79,6 +79,7 @@ exports.editcourse = async (req, res) => {
     const courseid = req.body;
 
     const coursedetail = await course.findById(courseid);
+
   } catch (error) {}
 };
 
@@ -205,17 +206,17 @@ exports.FetchEnrolledCourse = async (req, res) => {
 
     const fetchcourse = await User.findById(userid)
       .populate({
-        path: 'courses', // Populate the courses array
+        path: 'courses', 
         populate: {
-          path: 'coursecontent', // Populate the coursecontent field
+          path: 'coursecontent', 
           populate: {
-            path: 'subSection' // Populate the subSection field inside coursecontent
+            path: 'subSection' 
           }
         }
       })
       .exec();
 
-    // Check if user is found
+   
     if (!fetchcourse) {
       return res.status(404).json({
         status: false,
@@ -223,14 +224,12 @@ exports.FetchEnrolledCourse = async (req, res) => {
       });
     }
 
-    // Return success response with course details
     return res.status(200).json({
       status: true,
       message: "Course enrollment details successfully fetched",
       data: fetchcourse,
     });
   } catch (error) {
-    // Handle errors and return an error response
     console.error("Error fetching enrolled courses:", error);
     return res.status(500).json({
       status: false,
@@ -239,4 +238,14 @@ exports.FetchEnrolledCourse = async (req, res) => {
     });
   }
 };
+
+exports.deletecourse = async (req,res)=>{
+try {
+  const{courseId} = req.query;
+  const userid = req.user.id;
+  
+} catch (error) {
+  
+}
+}
 

@@ -49,7 +49,6 @@ exports.sendOTP = async (req, res) => {
 //signup
 exports.Signup = async (req, res) => {
   try {
-    // Add more specific logging
     const {
       firstName,
       lastName,
@@ -59,9 +58,6 @@ exports.Signup = async (req, res) => {
       accountType,
       otp,
     } = req.body;
-
-    // Logging inputs
-
     if (
       !firstName ||
       !lastName ||
