@@ -98,7 +98,11 @@ exports.getCourseAlldetails = async (req, res) => {
         }
       )
       .populate("instructor")
+      .populate("ratingAndReview")
+      .populate("tag")
       .exec();
+      
+     
     return res.status(200).json({
       message: "Course details fetched successfully",
       status: true,
